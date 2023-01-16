@@ -11,7 +11,6 @@ import { GalleryList } from '../ImageGalleryItem/ImageGalleryItem.styled';
 
 export const ImageGallery = ({ searchName }) => {
   const [image, setImage] = useState([]);
-  const [error, setError] = useState(null);
   const [status, setStatus] = useState('idle');
   const [page, setPage] = useState(1);
   const [openModal, setOpenModal] = useState(false);
@@ -42,7 +41,7 @@ export const ImageGallery = ({ searchName }) => {
         setStatus('resolved');
       })
       .catch(error => {
-        setError(error);
+        error(error.message);
         setStatus('rejected');
       })
       .finally(setLoader(false));
