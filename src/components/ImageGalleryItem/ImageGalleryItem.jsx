@@ -1,14 +1,17 @@
 import { Images, Item } from './ImageGalleryItem.styled';
-import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
-export class ImageGalleryItem extends PureComponent {
-  render() {
-    const { largeImageURL, webformatURL, tags, id } = this.props;
+export const ImageGalleryItem = ({ largeImageURL, webformatURL, tags, id }) => {
+  return (
+    <Item>
+      <Images id={id} data={largeImageURL} src={webformatURL} alt={tags} />
+    </Item>
+  );
+};
 
-    return (
-      <Item>
-        <Images id={id} data={largeImageURL} src={webformatURL} alt={tags} />
-      </Item>
-    );
-  }
-}
+ImageGalleryItem.propTypes = {
+  id: PropTypes.number.isRequired,
+  tags: PropTypes.string.isRequired,
+  webformatURL: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+};

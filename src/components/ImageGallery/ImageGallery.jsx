@@ -1,5 +1,6 @@
 import { fetchImages } from '../../service/fetchImages';
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import { Loader } from '../Loader/Loader';
 import { IdleImages } from '../IdleImages/IdleImages';
@@ -29,13 +30,14 @@ export const ImageGallery = ({ searchName }) => {
     if (!search) {
       return;
     }
+    setLoader(true);
 
     fetchImages(search, page)
       .then(data => {
         if (data.totalHits === 0) {
           return setStatus('rejected');
         }
-        setLoader(true);
+
         setImage(prev => [...prev, ...data.hits]);
         setTotalPage(data.totalHits);
         setStatus('resolved');
@@ -44,7 +46,7 @@ export const ImageGallery = ({ searchName }) => {
         error(error.message);
         setStatus('rejected');
       })
-      .finally(setLoader(false));
+      .finally(() => setLoader(false));
   }, [search, page]);
 
   function resetStates() {
@@ -97,7 +99,7 @@ export const ImageGallery = ({ searchName }) => {
           ))}
         </GalleryList>
 
-        {!loader && <Loader />}
+        {loader && <Loader />}
 
         {page <= Math.round(totalPage / 12) && (
           <LoadMore onClick={() => handleNextPage()} />
@@ -109,4 +111,8 @@ export const ImageGallery = ({ searchName }) => {
   if (status === 'rejected') {
     return <RejectedImages word={searchName} />;
   }
+};
+
+ImageGallery.propTypes = {
+  searchName: PropTypes.string.isRequired,
 };

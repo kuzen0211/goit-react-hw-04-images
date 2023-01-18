@@ -9,6 +9,6 @@ export function RejectedImages({ word }) {
   );
 }
 
-RejectedImages.proptype = {
+RejectedImages.propTypes = {
   word: PropTypes.string.isRequired,
 };
